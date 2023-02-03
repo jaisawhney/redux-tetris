@@ -1,8 +1,9 @@
 import './App.css';
-import GridSquare from './components/GridSquare'
 import GridBoard from './components/GridBoard';
 import NextBlock from "./components/NextBlock";
 import ScoreBoard from "./components/ScoreBoard";
+import Controls from "./components/Controls";
+import MessagePopup from "./components/MessagePopup";
 
 function App() {
     return (
@@ -13,6 +14,8 @@ function App() {
             <GridBoard/>
             <NextBlock/>
             <ScoreBoard/>
+            <Controls/>
+            <MessagePopup/>
         </div>
     );
 }

@@ -6,7 +6,7 @@ export default function NextBlock() {
     const block = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]]
     const grid = block.map((rowArray, row) => {
         return rowArray.map((square, col) => {
-            return <GridSquare key={`${row}${col}`} color={square}/>
+            return <GridSquare key={`${row}${col}`} color={square.toString()}/>
         })
     })
 

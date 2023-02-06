@@ -1,5 +1,5 @@
 export const randomNum = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 // Returns the default grid
@@ -8,11 +8,10 @@ export const gridDefault = () => {
     const cols = 10;
     const array: number[][] = [];
 
-    for (let i = 0; i < rows; i++) {
+    for (let row = 0; row < rows; row++) {
         array.push([]);
-        for (let col = 0; col < cols; i++) {
-            array[rows].push(0);
-            console.log(rows);
+        for (let col = 0; col < cols; col++) {
+            array[row].push(0);
         }
     }
 

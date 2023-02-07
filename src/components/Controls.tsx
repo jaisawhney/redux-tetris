@@ -13,9 +13,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => {
-                    dispatch(moveLeft());
-                }}>
+                onClick={() => dispatch(moveLeft())}>
                 Left
             </button>
 
@@ -23,9 +21,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => {
-                    dispatch(moveRight());
-                }}>
+                onClick={() => dispatch(moveRight())}>
                 Right
             </button>
 
@@ -33,9 +29,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => {
-                    dispatch(rotate());
-                }}>
+                onClick={() => dispatch(rotate())}>
                 Rotate
             </button>
 
@@ -43,9 +37,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => {
-                    dispatch(moveDown());
-                }}>
+                onClick={() => dispatch(moveDown())}>
                 Down
             </button>
         </div>

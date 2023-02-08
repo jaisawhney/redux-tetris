@@ -34,8 +34,12 @@ export default function Controls() {
     };
 
     useEffect(() => {
+        // Register keydown event
         window.addEventListener('keydown', keyDown);
-    }, []);
+
+        // Cleanup
+        return () => window.removeEventListener('keydown', keyDown);
+    }, [isRunning]);
 
     return (
         <div className="controls">

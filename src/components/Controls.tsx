@@ -1,40 +1,41 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../app/store';
-import { moveDown, moveLeft, moveRight, rotate } from '../reducers/gameSlice';
+import { drop, moveDown, moveX, rotate } from '../reducers/gameSlice';
 
 export default function Controls() {
     const dispatch = useDispatch();
-    const { isRunning, speed } = useSelector(
-        (state: RootState) => state.game
-    );
+    const { isRunning } = useSelector((state: RootState) => state.game);
 
-    const requestRef = useRef<DOMHighResTimeStamp>();
-    const lastUpdateTimeRef = useRef<DOMHighResTimeStamp>(0);
-    const progressTimeRef = useRef<DOMHighResTimeStamp>(0);
+    const keyDown = (e: KeyboardEvent) => {
+        if (!isRunning) return;
 
-    const update = (time: number) => {
-        requestRef.current = requestAnimationFrame(update);
-        if (!isRunning) {
-            return;
+        switch (e.code) {
+            case 'KeyA':
+            case 'ArrowLeft':
+                dispatch(moveX(-1));
+                break;
+            case 'KeyD':
+            case 'ArrowRight':
+                dispatch(moveX(1));
+                break;
+            case 'KeyW':
+            case 'ArrowUp':
+                dispatch(rotate());
+                break;
+            case 'KeyS':
+            case 'ArrowDown':
+                dispatch(moveDown());
+                break;
+            case 'Space':
+                dispatch(drop());
+                break;
         }
-        if (!lastUpdateTimeRef.current) {
-            lastUpdateTimeRef.current = time;
-        }
-        const deltaTime = time - lastUpdateTimeRef.current;
-        progressTimeRef.current += deltaTime;
-
-        if (progressTimeRef.current > speed) {
-            dispatch(moveDown());
-            progressTimeRef.current = 0;
-        }
-        lastUpdateTimeRef.current = time;
     };
 
     useEffect(() => {
-        requestRef.current = requestAnimationFrame(update);
-        return () => cancelAnimationFrame(requestRef.current as number);
-    }, [isRunning]);
+        window.addEventListener('keydown', keyDown);
+    }, []);
 
     return (
         <div className="controls">
@@ -42,7 +43,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => dispatch(moveLeft())}>
+                onClick={() => dispatch(moveX(-1))}>
                 Left
             </button>
 
@@ -50,7 +51,7 @@ export default function Controls() {
             <button
                 disabled={!isRunning}
                 className="control-button"
-                onClick={() => dispatch(moveRight())}>
+                onClick={() => dispatch(moveX(+1))}>
                 Right
             </button>
 

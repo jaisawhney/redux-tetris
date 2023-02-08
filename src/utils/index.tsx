@@ -142,3 +142,11 @@ export const checkRows = (grid: number[][]) => {
     }
     return clearedRows;
 };
+
+export const calcScore = (
+    clearedRows: number,
+    level: number
+) => {
+    const availablePoints = [0, 40, 100, 300, 1200];
+    return availablePoints[clearedRows] * level;
+};

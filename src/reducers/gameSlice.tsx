@@ -6,6 +6,7 @@ import {
     addBlockToGrid,
     randomShape,
     checkRows,
+    calcScore,
 } from '../utils';
 
 export const gameSlice = createSlice({
@@ -20,17 +21,11 @@ export const gameSlice = createSlice({
             state.isRunning = true;
             return state;
         },
-        moveLeft: (state) => {
+        moveX: (state, action) => {
             const { shape, grid, x, y, rotation } = state;
-            if (canMoveTo(shape, grid, x - 1, y, rotation)) {
-                state.x = x - 1;
-            }
-            return state;
-        },
-        moveRight: (state) => {
-            const { shape, grid, x, y, rotation } = state;
-            if (canMoveTo(shape, grid, x + 1, y, rotation)) {
-                state.x = x + 1;
+            const offset = action.payload;
+            if (canMoveTo(shape, grid, x + offset, y, rotation)) {
+                state.x = x + offset;
             }
             return state;
         },
@@ -76,9 +71,8 @@ export const gameSlice = createSlice({
 
             // Get the number of rows cleared
             const clearedRows = checkRows(newGrid);
-            const availablePoints = [0, 40, 100, 300, 1200];
+            state.score += calcScore(clearedRows, state.level);
             state.levelRowsCleared += clearedRows;
-            state.score += availablePoints[clearedRows] * state.level;
 
             // Increase the level and decrease the interval
             if (state.levelRowsCleared >= 10) {
@@ -97,10 +91,22 @@ export const gameSlice = createSlice({
             return state;
         },
         restart: () => defaultState(),
+        drop: (state) => {
+            const { x, y, shape, grid, rotation } = state;
+
+            let currentY = y;
+            while (canMoveTo(shape, grid, x, currentY, rotation)) {
+                currentY += 1;
+            }
+            currentY -= 1;
+
+            state.y = currentY;
+            return state;
+        },
     },
 });
 
-export const { moveLeft, moveRight, moveDown, rotate, pause, resume, restart } =
+export const { moveX, moveDown, rotate, pause, resume, restart, drop } =
     gameSlice.actions;
 
 export default gameSlice.reducer;

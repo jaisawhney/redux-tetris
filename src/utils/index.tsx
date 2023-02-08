@@ -1,4 +1,4 @@
-import { SHAPES } from '../constants/gameDefaults';
+import { INITIAL_ROTATION, INITIAL_SPEED, INITIAL_X, INITIAL_Y, SHAPES } from "../constants/gameDefaults";
 
 export const randomNum = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -32,10 +32,10 @@ export const defaultState = () => {
         // Get a new random shape
         shape: randomShape(),
         // set rotation of the shape to 0
-        rotation: 0,
+        rotation: INITIAL_ROTATION,
         // set the 'x' position of the shape to 5 and y to -4, which puts the shape in the center of the grid, above the top
-        x: 5,
-        y: -4,
+        x: INITIAL_X,
+        y: INITIAL_Y,
         // set the index of the next shape to a new random shape
         nextShape: randomShape(),
         // Tell the game that it's currently running
@@ -48,7 +48,7 @@ export const defaultState = () => {
         // Counts the cleared rows for the current level
         levelRowsCleared: 0,
         // Initial game speed
-        speed: 1000,
+        speed: INITIAL_SPEED,
 
         // Game isn't over yet
         gameOver: false,

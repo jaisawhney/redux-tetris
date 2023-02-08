@@ -8,6 +8,7 @@ import {
     checkRows,
     calcScore,
 } from '../utils';
+import { INITIAL_ROTATION, INITIAL_X, INITIAL_Y } from "../constants/gameDefaults";
 
 export const gameSlice = createSlice({
     name: 'game',
@@ -54,9 +55,9 @@ export const gameSlice = createSlice({
             }
 
             // reset some things to start a new shape/block
-            state.x = 3;
-            state.y = -4;
-            state.rotation = 0;
+            state.x = INITIAL_X;
+            state.y = INITIAL_Y;
+            state.rotation = INITIAL_ROTATION;
             state.grid = newGrid;
             state.shape = nextShape;
             state.nextShape = randomShape();

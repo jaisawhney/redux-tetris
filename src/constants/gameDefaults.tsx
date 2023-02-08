@@ -1,3 +1,7 @@
+export const INITIAL_ROTATION = 0
+export const INITIAL_X = 5
+export const INITIAL_Y = -1
+export const INITIAL_SPEED = 1000
 export const SHAPES = [
     // none
     [

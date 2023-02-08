@@ -1,14 +1,14 @@
 import GridSquare from './GridSquare';
 import { useSelector } from 'react-redux';
 import { RootState } from '../app/store';
-import { shapes } from '../utils';
+import { SHAPES } from "../constants/gameDefaults";
 
 export default function GridBoard() {
     const { grid, shape, rotation, x, y } = useSelector(
         (state: RootState) => state.game
     );
 
-    const block = shapes[shape][rotation];
+    const block = SHAPES[shape][rotation];
     const blockColor = shape;
 
     const gridSquares = grid.map((rowArray, row) => {

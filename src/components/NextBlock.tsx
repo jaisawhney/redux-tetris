@@ -2,12 +2,12 @@ import React from "react";
 import GridSquare from "./GridSquare";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
-import { shapes } from "../utils";
+import { SHAPES } from "../constants/gameDefaults";
 
 export default function NextBlock() {
     const nextShape = useSelector((state: RootState) => state.game.nextShape);
 
-    const block = shapes[nextShape][0];
+    const block = SHAPES[nextShape][0];
     const grid = block.map((rowArray, row) => {
         return rowArray.map((square, col) => {
             return (

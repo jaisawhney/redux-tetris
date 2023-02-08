@@ -1,3 +1,5 @@
+import { SHAPES } from '../constants/gameDefaults';
+
 export const randomNum = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -18,175 +20,8 @@ export const gridDefault = () => {
     return array;
 };
 
-// Define block shapes and their rotations as arrays.
-export const shapes = [
-    // none
-    [
-        [
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // I
-    [
-        [
-            [0, 0, 0, 0],
-            [1, 1, 1, 1],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-        ],
-    ],
-
-    // T
-    [
-        [
-            [0, 0, 0, 0],
-            [1, 1, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [1, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [1, 1, 1, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [0, 1, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // L
-    [
-        [
-            [0, 0, 0, 0],
-            [1, 1, 1, 0],
-            [1, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [1, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 0, 1, 0],
-            [1, 1, 1, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 1, 1, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // J
-    [
-        [
-            [1, 0, 0, 0],
-            [1, 1, 1, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 1, 0],
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 0, 0, 0],
-            [1, 1, 1, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [0, 1, 0, 0],
-            [1, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // Z
-    [
-        [
-            [0, 0, 0, 0],
-            [1, 1, 0, 0],
-            [0, 1, 1, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 0, 1, 0],
-            [0, 1, 1, 0],
-            [0, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // S
-    [
-        [
-            [0, 0, 0, 0],
-            [0, 1, 1, 0],
-            [1, 1, 0, 0],
-            [0, 0, 0, 0],
-        ],
-
-        [
-            [0, 1, 0, 0],
-            [0, 1, 1, 0],
-            [0, 0, 1, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-
-    // O
-    [
-        [
-            [0, 1, 1, 0],
-            [0, 1, 1, 0],
-            [0, 0, 0, 0],
-            [0, 0, 0, 0],
-        ],
-    ],
-];
-
 export const randomShape = () => {
-    return randomNum(1, shapes.length - 1);
+    return randomNum(1, SHAPES.length - 1);
 };
 
 // Return the default state for the game
@@ -207,8 +42,14 @@ export const defaultState = () => {
         isRunning: true,
         // Set the score to 0
         score: 0,
-        // Set the default speed
+
+        // Start at level 1
+        level: 1,
+        // Counts the cleared rows for the current level
+        levelRowsCleared: 0,
+        // Initial game speed
         speed: 1000,
+
         // Game isn't over yet
         gameOver: false,
     };
@@ -217,7 +58,7 @@ export const defaultState = () => {
 // Returns the next rotation for a shape
 // rotation can't exceed the last index of the rotations for the given shape.
 export const nextRotation = (shape: number, rotation: number) => {
-    return (rotation + 1) % shapes[shape].length;
+    return (rotation + 1) % SHAPES[shape].length;
 };
 
 export const canMoveTo = (
@@ -227,7 +68,7 @@ export const canMoveTo = (
     y: number,
     rotation: number
 ) => {
-    const currentShape = shapes[shape][rotation];
+    const currentShape = SHAPES[shape][rotation];
     // Loop through all rows and cols of the **shape**
     for (let row = 0; row < currentShape.length; row++) {
         for (let col = 0; col < currentShape[row].length; col++) {
@@ -249,7 +90,6 @@ export const canMoveTo = (
                         possibleRow[proposedX] === undefined ||
                         possibleRow[proposedX] !== 0
                     ) {
-                        // undefined or not 0 and it's occupied we can't move here.
                         return false;
                     }
                 } else {
@@ -259,4 +99,46 @@ export const canMoveTo = (
         }
     }
     return true;
+};
+
+// Adds a current shape to the grid
+export const addBlockToGrid = (
+    shape: number,
+    grid: number[][],
+    x: number,
+    y: number,
+    rotation: number
+) => {
+    // At this point the game is not over
+    let gameOver = false;
+    const block = SHAPES[shape][rotation];
+    const newGrid = [...grid];
+    for (let row = 0; row < block.length; row++) {
+        for (let col = 0; col < block[row].length; col++) {
+            if (block[row][col]) {
+                const yIndex = row + y;
+                // If the yIndex is less than 0 part of the block
+                // is off the top of the screen and the game is over
+                if (yIndex < 0) {
+                    gameOver = true;
+                } else {
+                    newGrid[row + y][col + x] = shape;
+                }
+            }
+        }
+    }
+    // Return both the newGrid and the gameOver bool
+    return { newGrid, gameOver };
+};
+
+export const checkRows = (grid: number[][]) => {
+    let clearedRows = 0;
+    for (let row = 0; row < grid.length; row++) {
+        if (!grid[row].includes(0)) {
+            grid.splice(row, 1);
+            grid.unshift(new Array(10).fill(0));
+            clearedRows += 1;
+        }
+    }
+    return clearedRows;
 };
